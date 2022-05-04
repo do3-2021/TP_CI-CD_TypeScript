@@ -21,8 +21,8 @@ export interface City {
     insee_code: string;
     zip_code: string;
     name: string;
-    lat: number;
-    lon: number;
+    lat: string;
+    lon: string;
 }
 
 export function AddCity(city: City): Promise<any> {
