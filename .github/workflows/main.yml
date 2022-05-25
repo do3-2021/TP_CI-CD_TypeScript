@@ -29,4 +29,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ascoz/city-api:${{ steps.main.outputs.SOURCE_TAG }}
+          tags: ascoz/city-api:${{ github.ref }}
