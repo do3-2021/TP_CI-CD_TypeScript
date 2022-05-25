@@ -24,3 +24,9 @@ jobs:
         with:
           push: true
           tags: ascoz/city-api:latest
+      - name: Push & build docker image
+        if: "${{ steps.main.outputs.SOURCE_TAG }}"
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: ascoz/city-api:${{ steps.main.outputs.SOURCE_TAG }}
