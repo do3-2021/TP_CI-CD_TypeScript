@@ -4,8 +4,6 @@ on:
       - v*.*.*
 
 jobs:
-  call_test : 
-    uses: ./.github/workflows/tests.yml
   build_and_push:
     runs-on: ubuntu-latest
     steps:
