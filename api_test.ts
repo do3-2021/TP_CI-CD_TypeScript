@@ -1,15 +1,9 @@
-import { assertEquals } from "https://deno.land/std@0.137.0/testing/asserts.ts";
-import { AddCity, City } from "./database.ts";
 import { setupApp } from "./routes.ts";
 import { superoak } from "https://deno.land/x/superoak@4.7.0/mod.ts";
 import {
     assertSpyCall,
-    assertSpyCalls,
-    returnsNext,
     spy,
-    stub,
 } from "https://deno.land/std@0.140.0/testing/mock.ts";
-import { QueryObjectResult } from "https://deno.land/x/postgres@v0.14.3/query/query.ts";
 import { Client } from "https://deno.land/x/postgres@v0.14.3/client.ts";
 
 Deno.test("Insert into database", async () => {
@@ -21,7 +15,7 @@ Deno.test("Insert into database", async () => {
         lat: "43.6",
         lon: "3.5",
     };
-    const queryArray = ( query: string, ...args: any[]) => {
+    const queryArray = (_query: string, ..._args: unknown[]) => {
         return true;
     };
 
@@ -61,14 +55,14 @@ Deno.test("Check get cities", async () => {
             lon: 4.92469920318725,
         },
     ];
-    const queryObject = (query: string) => {
+    const queryObject = (_query: string) => {
         return Promise.resolve(result);
     };
 
     const querySpy = spy(queryObject);
 
     const fakeClient = {
-        queryObject,
+        queryObject: querySpy,
     };
 
     const app = setupApp(fakeClient as unknown as Client);
