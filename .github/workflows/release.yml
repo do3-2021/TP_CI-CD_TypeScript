@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/workflows/tests.yml
+      - uses: do3-2021/TP_CI-CD_TypeScript/.github/workflows/tests.yml@main
       - name: Registry login
         uses: docker/login-action@v2
         with:
