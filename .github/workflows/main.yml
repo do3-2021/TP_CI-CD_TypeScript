@@ -25,8 +25,8 @@ jobs:
           push: true
           tags: ascoz/city-api:latest
       - name: Push & build docker image
-        if: "${{ GITHUB_REF_TYPE == 'tag' }}" 
+        if: "${{ env.GITHUB_REF_TYPE == 'tag' }}" 
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ascoz/city-api:${{ GITHUB_REF_NAME }}
+          tags: ascoz/city-api:${{ env.GITHUB_REF_NAME }}
