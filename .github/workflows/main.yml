@@ -1,6 +1,5 @@
 on:
   push:
-    branches: [main]
     tags:
       - v*.*.*
 
@@ -27,7 +26,6 @@ jobs:
           push: true
           tags: ascoz/city-api:latest
       - name: Push & build docker image
-        if: ${{ github.ref_tag == 'tag' }}
         uses: docker/build-push-action@v3
         with:
           push: true
