@@ -1,4 +1,8 @@
-import { Application, Router } from "https://deno.land/x/oak/mod.ts";
+import {
+    Application,
+    Context,
+    Router,
+} from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import { ParseBodyJSON, SendJSONResponse } from "./api.ts";
 import { AddCity, City, GetCities } from "./database.ts";
 
@@ -9,7 +13,7 @@ const app = new Application();
 
 const router = new Router();
 
-router.post("/city", async (ctx) => {
+router.post("/city", async (ctx: Context<Record<string, unknown>>) => {
     const body = await ParseBodyJSON<City>(ctx);
 
     AddCity(body);

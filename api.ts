@@ -1,4 +1,4 @@
-import { Application, Context } from "https://deno.land/x/oak@v10.1.0/mod.ts";
+import { Application, Context } from "https://deno.land/x/oak@v10.6.0/mod.ts";
 import { Pool } from "https://deno.land/x/postgres@v0.14.3/pool.ts";
 
 /**
