@@ -11,10 +11,10 @@ jobs:
       - uses: denoland/setup-deno@v1.0.0
         with:
           deno-version: v1.22.0 # Run with latest stable Deno.
-      #- name: Run deno linter
-      #  run: deno lint
-      #- name: Run deno test
-      #  run: deno test --allow-all
+      - name: Run deno linter
+        run: deno lint
+      - name: Run deno test
+        run: deno test --allow-all
 
       - name: Registry login
         uses: docker/login-action@v1
