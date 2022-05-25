@@ -1,17 +1,21 @@
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
-      # Build and push docker image
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1.0.0
+        with:
+          deno-version: v1.22.0 # Run with latest stable Deno.
       - name: Run deno linter
         run: deno lint
       - name: Run deno test
         run: deno test --allow-all
+      # Build and push docker image
       - name: Build docker image
         run: docker build . -t city-api:latest
       - name: GHCR login
@@ -22,4 +26,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push docker image to GHCR
         run: docker push ghcr.io/Maxtho8/city-api:latest
+        
         
