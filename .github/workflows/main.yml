@@ -1,7 +1,7 @@
 on:
   push:
-    tags:
-      - v*.*.*
+    branches:
+      - master
 
 jobs:
   build_and_push:
@@ -15,18 +15,3 @@ jobs:
         run: deno lint
       - name: Run deno tests
         run: deno test --allow-all
-      - name: Registry login
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Push & build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: ascoz/city-api:latest
-      - name: Push & build docker image
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: ascoz/city-api:${{ github.ref_name }}
