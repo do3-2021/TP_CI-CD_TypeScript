@@ -1,12 +1,6 @@
 on:
   workflow_call:
-    inputs:
-      username:
-        required: true
-        type: string
-    secrets:
-      envPAT:
-        required: true
+
 jobs:
   lint_test:
     runs-on: ubuntu-latest
