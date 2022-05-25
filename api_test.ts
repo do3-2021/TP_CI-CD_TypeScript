@@ -5,6 +5,11 @@ import {
     spy,
 } from "https://deno.land/std@0.140.0/testing/mock.ts";
 import { Client } from "https://deno.land/x/postgres@v0.14.3/client.ts";
+Deno.test("Integration : insert into database", async () => {
+
+    // TODO
+
+})
 
 Deno.test("Insert into database", async () => {
     const inputCity = {
