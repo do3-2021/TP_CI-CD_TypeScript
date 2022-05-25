@@ -26,6 +26,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: test/city-api-js:latest
+          tags: do3-2021/city-api-ts:latest
         
         
