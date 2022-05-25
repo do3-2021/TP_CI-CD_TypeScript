@@ -42,7 +42,7 @@ export async function GetCities(): Promise<City[]> {
 }
 
 export async function initDB() {
-    new Client({
+    client = new Client({
         database: database,
         user: username,
         password: password,
