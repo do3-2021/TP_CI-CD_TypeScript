@@ -25,7 +25,7 @@ export interface City {
     lon: string;
 }
 
-export function AddCity(city: City): Promise<any> {
+export function AddCity(city: City): Promise<unknown> {
     return client.queryArray(
         "INSERT INTO city (department_code, insee_code, zip_code, name, lat, lon) VALUES ($1, $2, $3, $4, $5, $6)",
         city.department_code,
