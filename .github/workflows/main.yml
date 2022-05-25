@@ -5,7 +5,7 @@ on:
 
 jobs:
   call_test : 
-    uses: ./.github/workflows/main.yml
+    uses: ./.github/workflows/tests.yml
   lint_test_build_push:
     runs-on: ubuntu-latest
     steps:
