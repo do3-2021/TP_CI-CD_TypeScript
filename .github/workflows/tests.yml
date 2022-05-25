@@ -1,0 +1,21 @@
+on:
+  workflow_call:
+    inputs:
+      username:
+        required: true
+        type: string
+    secrets:
+      envPAT:
+        required: true
+jobs:
+  lint_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: denoland/setup-deno@v1.0.0
+        with:
+          deno-version: v1.22.0
+      - name: Run deno linter
+        run: deno lint
+      - name: Run deno tests
+        run: deno test --allow-all
