@@ -1,12 +1,5 @@
 import { Client } from "https://deno.land/x/postgres@v0.14.3/mod.ts";
 
-const hostname = Deno.env.get("CITY_API_DB_URL") || "localhost";
-const port = parseInt(Deno.env.get("CITY_API_DB_PORT") ?? "") || "5432";
-const username = Deno.env.get("CITY_API_DB_USER") || "postgres";
-const password = Deno.env.get("CITY_API_DB_PWD") || "postgres";
-const database = Deno.env.get("CITY_API_DB_DATABASE") || "postgres";
-
-export let client: Client;
 export interface City {
     id?: string;
     department_code: string;
@@ -17,7 +10,7 @@ export interface City {
     lon: string;
 }
 
-export function AddCity(city: City): Promise<unknown> {
+export function AddCity(client: Client, city: City): Promise<unknown> {
     return client.queryArray(
         "INSERT INTO city (department_code, insee_code, zip_code, name, lat, lon) VALUES ($1, $2, $3, $4, $5, $6)",
         city.department_code,
@@ -29,7 +22,7 @@ export function AddCity(city: City): Promise<unknown> {
     );
 }
 
-export async function GetCities(): Promise<City[]> {
+export async function GetCities(client: Client): Promise<City[]> {
     const output = await client.queryObject<City[] | City>(
         "SELECT * FROM city"
     );
@@ -42,7 +35,12 @@ export async function GetCities(): Promise<City[]> {
 }
 
 export async function initDB() {
-    client = new Client({
+    const hostname = Deno.env.get("CITY_API_DB_URL") || "localhost";
+    const port = parseInt(Deno.env.get("CITY_API_DB_PORT") ?? "") || "5432";
+    const username = Deno.env.get("CITY_API_DB_USER") || "postgres";
+    const password = Deno.env.get("CITY_API_DB_PWD") || "postgres";
+    const database = Deno.env.get("CITY_API_DB_DATABASE") || "postgres";
+    const client = new Client({
         database: database,
         user: username,
         password: password,
@@ -54,4 +52,5 @@ export async function initDB() {
     const text = await Deno.readTextFile("init.sql");
 
     await client.queryArray(text);
+    return client;
 }
