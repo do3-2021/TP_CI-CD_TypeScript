@@ -7,6 +7,7 @@ jobs:
   lint_test_build_push:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: ./.github/workflows/tests
       - name: Registry login
         uses: docker/login-action@v2
