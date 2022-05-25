@@ -18,7 +18,7 @@ jobs:
         id: set_version
         with:
           script: |
-            const tag = context.ref_name
+            const tag = github.ref_name
             const no_v = tag.replace('v', '')
             core.setOutput('no-v', no_v)
       - name: Push & build docker image
