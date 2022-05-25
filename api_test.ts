@@ -1,6 +1,13 @@
 import { assertEquals } from "https://deno.land/std@0.137.0/testing/asserts.ts";
-import { Client } from "https://deno.land/x/postgres@v0.15.0/mod.ts";
-import { AddCity, City, client, GetCities } from "./database.ts";
+import { AddCity, City, client } from "./database.ts";
+import { setupApp } from "./routes.ts";
+import { superoak } from "https://deno.land/x/superoak@4.7.0/mod.ts";
+import {
+    assertSpyCall,
+    assertSpyCalls,
+    returnsNext,
+    stub,
+} from "https://deno.land/std@0.140.0/testing/mock.ts";
 
 Deno.test("Insert into database", async () => {
     await client.queryObject<City>(
@@ -29,11 +36,16 @@ Deno.test("Insert into database", async () => {
     assertEquals(res, inputCity);
 });
 
-// Deno.test("url test", () => {
-//   client.query("SELECT * FROM city").then(res => {
-//     assertEquals(res.rows.length, 1);
-//     assertEquals(res.rows[0].name, "Paris");
-//   }
-// });
+Deno.test("Check get cities", () => {
+    const app = setupApp();
 
-Deno.test("Health check api", () => {});
+    const getCitiesStub = stub(client, "queryObject", );
+});
+
+Deno.test("Health check api", async () => {
+    const app = setupApp();
+
+    const request = await superoak(app);
+
+    await request.post("/_health").expect(204);
+});

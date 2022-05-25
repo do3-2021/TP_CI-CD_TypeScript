@@ -6,15 +6,7 @@ const username = Deno.env.get("CITY_API_DB_USER") || "postgres";
 const password = Deno.env.get("CITY_API_DB_PWD") || "postgres";
 const database = Deno.env.get("CITY_API_DB_DATABASE") || "postgres";
 
-export const client = new Client({
-    database: database,
-    user: username,
-    password: password,
-    hostname: hostname,
-    port: port,
-});
-await client.connect();
-
+export let client: Client;
 export interface City {
     id?: string;
     department_code: string;
@@ -49,10 +41,17 @@ export async function GetCities(): Promise<City[]> {
     return cities;
 }
 
-async function init() {
+export async function initDB() {
+    new Client({
+        database: database,
+        user: username,
+        password: password,
+        hostname: hostname,
+        port: port,
+    });
+    await client.connect();
+
     const text = await Deno.readTextFile("init.sql");
 
     await client.queryArray(text);
 }
-
-await init();
