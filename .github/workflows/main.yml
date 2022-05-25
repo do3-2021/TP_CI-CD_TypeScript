@@ -13,8 +13,8 @@ jobs:
           deno-version: v1.22.0 # Run with latest stable Deno.
       #- name: Run deno linter
        # run: deno lint
-      - name: Run deno test
-        run: deno test --allow-all
+      #- name: Run deno test
+       # run: deno test --allow-all
       # Build and push docker image
       - name: GHCR login
         uses: docker/login-action@v1
