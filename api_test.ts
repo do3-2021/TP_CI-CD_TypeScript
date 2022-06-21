@@ -5,11 +5,50 @@ import {
     spy,
 } from "https://deno.land/std@0.140.0/testing/mock.ts";
 import { Client } from "https://deno.land/x/postgres@v0.14.3/client.ts";
+import { City, initDB } from "./database.ts";
+import {
+    assert,
+    assertEquals,
+} from "https://deno.land/std@0.144.0/testing/asserts.ts";
+
 Deno.test("Integration : insert into database", async () => {
+    const inputCity = {
+        department_code: "87654321",
+        insee_code: "12345678",
+        zip_code: "34000",
+        name: "Test Montpellier",
+        lat: "43.6",
+        lon: "3.5",
+    };
 
-    // TODO
+    const dbClient = await initDB();
+    const app = setupApp(dbClient);
 
-})
+    const simulated = await superoak(app);
+
+    await simulated.post("/city").send(inputCity).expect(201);
+
+    const cities = await dbClient.queryObject("SELECT * FROM city");
+
+    assert(cities.rowCount || 0 >= 1);
+    let found = false;
+
+    (cities.rows as City[]).forEach((city: City) => {
+        if (
+            city.name === inputCity.name &&
+            city.department_code === inputCity.department_code &&
+            city.insee_code === inputCity.insee_code &&
+            city.zip_code === inputCity.zip_code &&
+            city.lat === inputCity.lat &&
+            city.lon === inputCity.lon
+        )
+            found = true;
+    });
+
+    assert(found);
+
+    dbClient.end();
+});
 
 Deno.test("Insert into database", async () => {
     const inputCity = {
