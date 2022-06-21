@@ -23,9 +23,7 @@ export function AddCity(client: Client, city: City): Promise<unknown> {
 }
 
 export async function GetCities(client: Client): Promise<City[]> {
-    const output = await client.queryObject<City[] | City>(
-        "SELECT * FROM city"
-    );
+    const output = (await client.queryObject<City>("SELECT * FROM city")).rows;
 
     let cities: Array<City> = [];
 
