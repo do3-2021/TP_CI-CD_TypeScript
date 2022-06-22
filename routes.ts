@@ -22,7 +22,7 @@ export function setupRouter(dbClient: Client): Router {
     return SendJSONResponse(ctx, await GetCities(dbClient), 200);
   });
 
-  router.post("/_health", (ctx) => {
+  router.get("/_health", (ctx) => {
     ctx.response.status = 204;
   });
 
