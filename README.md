@@ -79,7 +79,7 @@ Sur minikube on peut tester (penser à installer l’addon nginx-ingress) :
 
   dans cet exemple l’ingress est accessible à l’url `http://192.168.49.2:30164`
 
-- Lancer une requête ave comme host `localhost` :
+- Lancer une requête avec comme host `localhost` :
   
   ```sh
   $ curl -H 'Host: localhost' http://192.168.49.2:30164/city
