@@ -106,3 +106,35 @@ Sur minikube on peut tester (penser à installer l’addon nginx-ingress) :
   $ curl -H 'Host: localhost' http://192.168.49.2:30164/city
   [{"id":1,"department_code":"01","insee_code":"01001","zip_code":"01400","name":"L Abergement-Clémenciat","lat":"46.15678","lon":"4.9246993"}]
   ```
+
+## Metrics prometheus
+
+Nous avons utilisé la lib [https://github.com/marcopacini/ts_prometheus](https://github.com/marcopacini/ts_prometheus) qui permet de gérer facilement les metrics.
+
+Définition d’un compteur :
+
+```ts
+const counter = Counter.with({
+    name: "http_requests_total",
+    help: "The total HTTP requests",
+    labels: ["path", "method", "status"],
+});
+```
+
+Mise à jour d’un compteur :
+
+```ts
+counter
+    .labels({
+        path: ctx.request.url.pathname,
+        method: ctx.request.method,
+        status: ctx.response.status.toString() || "",
+    })
+    .inc();
+```
+
+Récupération des metrics générées :
+
+```ts
+Registry.default.metrics();
+```
