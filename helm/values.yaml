@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: ascoz/city-api
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
@@ -92,7 +92,5 @@ postgresql:
     database: city
 
 api:
-  db_user: city
-  db_password: city
-  db_name: city
   addr: "0.0.0.0"
+  port: "2022"

@@ -41,13 +41,15 @@ spec:
             - name: "CITY_API_DB_URL"
               value: {{ .Release.Name }}-postgresql
             - name: "CITY_API_DB_USER"
-              value: {{ .Values.api.db_user }}
+              value: {{ .Values.postgresql.auth.username }}
             - name: "CITY_API_DB_PWD"
-              value: {{ toYaml .Values.api.db_password }}
+              value: {{ toYaml .Values.postgresql.auth.password }}
             - name: "CITY_API_DB_DATABASE"
-              value: {{ toYaml .Values.api.db_name }}
+              value: {{ toYaml .Values.postgresql.auth.database }}
             - name: "CITY_API_ADDR"
               value: {{ toYaml .Values.api.addr }}
+            - name: "CITY_API_PORT"
+              value: {{ toYaml .Values.api.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

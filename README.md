@@ -27,3 +27,82 @@ L’autre déclenché sur chaque tag de version `*.*.*`:
 - Push docker image sur `ascoz/city-api:${{ github.ref_name }}` et `ascoz/city-api:latest`. Le tag `ref_name` correspond au tag déclencheur de l’action.
 
 Nous avons aussi un fichier `docker-compose.yml` permettant d’exécuter une base de données postgres.
+
+## Chart helm
+
+Les fichiers de la chart sont dans le dossier `helm`.
+
+Dans `values.yml` sont configurés les valeurs suivantes :
+
+| nom                      | variable d’environnement | valeur de base |
+| ------------------------ | ------------------------ | -------------- |
+| postgresql.auth.username | CITY_API_DB_USER         | city           |
+| postgresql.auth.password | CITY_API_DB_PWD          | city           |
+| postgresql.auth.database | CITY_API_DB_DATABASE     | city           |
+| api.addr                 | CITY_API_ADDR            | 0.0.0.0        |
+| api.port                 | CITY_API_PORT            | 2022           |
+
+La chart de base importe la chart `bitnami/postgresql` avec le nom postgresql.
+
+Commande pour déployer :
+
+```sh
+helm install nomDeploiement ./helm
+```
+
+Désinstallation :
+
+```sh
+helm uninstall nomDeploiement
+```
+
+Sur minikube on peut tester (penser à installer l’addon nginx-ingress) : 
+
+- récupérer l’adresse de l’ingress 
+  
+  ```sh
+  $ minikube service list
+  |---------------|------------------------------------|--------------|---------------------------|
+  | NAMESPACE       | NAME                                 | TARGET PORT    | URL                         |
+  | --------------- | ------------------------------------ | -------------- | --------------------------- |
+  | default         | kubernetes                           | No node port   |
+  | default         | test-city-api                        | No node port   |
+  | default         | test-postgresql                      | No node port   |
+  | default         | test-postgresql-0                    | No node port   |
+  | default         | test-postgresql-hl                   | No node port   |
+  | ingress-nginx   | ingress-nginx-controller             | http/80        | http://192.168.49.2:30164   |
+  |                 |                                      | https/443      | http://192.168.49.2:32425   |
+  | ingress-nginx   | ingress-nginx-controller-admission   | No node port   |
+  | kube-system     | kube-dns                             | No node port   |
+  | --------------- | ------------------------------------ | -------------- | --------------------------- |
+  ```
+
+  dans cet exemple l’ingress est accessible à l’url `http://192.168.49.2:30164`
+
+- Lancer une requête ave comme host `localhost` :
+  
+  ```sh
+  $ curl -H 'Host: localhost' http://192.168.49.2:30164/city
+  []  
+  ```
+
+- Insertion :
+  
+  ```sh
+    $ curl -H 'Host: localhost' http://192.168.49.2:30164/city -X POST -d '{
+          "department_code": "01",
+          "insee_code": "01001",
+          "zip_code": "01400",
+          "name": "L Abergement-Clémenciat",
+          "lat": 46.15678199203189,
+          "lon": 4.92469920318725
+      }'
+  {"message":"Created"}
+  ```
+
+- Vérification de l’ajout :
+  
+  ```sh
+  $ curl -H 'Host: localhost' http://192.168.49.2:30164/city
+  [{"id":1,"department_code":"01","insee_code":"01001","zip_code":"01400","name":"L Abergement-Clémenciat","lat":"46.15678","lon":"4.9246993"}]
+  ```
