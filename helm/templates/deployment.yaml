@@ -39,15 +39,15 @@ spec:
               protocol: TCP
           env:
             - name: "CITY_API_DB_URL"
-              value: {{- .Release.Name }}-postgresql
+              value: {{ .Release.Name }}-postgresql
             - name: "CITY_API_DB_USER"
-              value: {{- .Values.api.db_user }}
+              value: {{ .Values.api.db_user }}
             - name: "CITY_API_DB_PWD"
-              value: {{- toYaml .Values.api.db_password }}
+              value: {{ toYaml .Values.api.db_password }}
             - name: "CITY_API_DB_DATABASE"
-              value: {{- toYaml .Values.api.db_name }}
+              value: {{ toYaml .Values.api.db_name }}
             - name: "CITY_API_ADDR"
-              value: {{- toYaml .Values.api.addr }}
+              value: {{ toYaml .Values.api.addr }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
