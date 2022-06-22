@@ -2,7 +2,7 @@
 
 ## Contexte
 
-Pour ce tp, nous avons crée un projet CI/CD permettant de faire un build et un déploiement automatique d’une petite api web possédant les routes suivantes.
+Pour ce tp, nous avons créé un projet CI/CD permettant de faire un build et un déploiement automatique d’une petite api web possédant les routes suivantes.
 
 | Method | Route     | Description            |
 | ------ | --------- | ---------------------- |
@@ -12,7 +12,7 @@ Pour ce tp, nous avons crée un projet CI/CD permettant de faire un build et un 
 
 ## Développement
 
-Nous avons développé l’api en TypeScript avec le runtime Deno et la librairie `oak` pour le routage et `postgres` comme driver de base de données. Deno intègre les outils de formattage, test et lint.
+Nous avons développé l’api en TypeScript avec le runtime Deno et la librairie `oak` pour le routage et `postgres` comme driver de base de données. Deno intègre les outils de formatage, test et lint.
 
 Lancement de l’application (nécessite une db configurée) :
 
@@ -48,14 +48,14 @@ deno lint
 
 Nous avons deux scripts d’intégration.
 
-L’un déclenché sur chaque action d’une Pull Request:
+Le premier est déclenché sur chaque action d’une Pull Request:
 
 - Run linter
 - Run tests
 - Build docker image
 - Push docker image sur `ascoz/city-api:${{ github.sha }}`. Le `sha` correspond au hash du commit en question.
 
-L’autre déclenché sur chaque tag de version `*.*.*`:
+Le second est déclenché sur chaque tag de version `*.*.*`:
 
 - Build docker image
 - Push docker image sur `ascoz/city-api:${{ github.ref_name }}` et `ascoz/city-api:latest`. Le tag `ref_name` correspond au tag déclencheur de l’action.
