@@ -1,6 +1,6 @@
 # TP CI/CD
 
-# Contexte
+## Contexte
 
 Pour ce tp, nous avons crée un projet CI/CD permettant de faire un build et un déploiement automatique d’une petite api web possédant les routes suivantes.
 
@@ -9,6 +9,40 @@ Pour ce tp, nous avons crée un projet CI/CD permettant de faire un build et un 
 | POST   | /city     | Create new city        |
 | GET    | /city     | Get all cities         |
 | GET    | /\_health | Get application health |
+
+## Développement
+
+Nous avons développé l’api en TypeScript avec le runtime Deno et la librairie `oak` pour le routage et `postgres` comme driver de base de données. Deno intègre les outils de formattage, test et lint.
+
+Lancement de l’application (nécessite une db configurée) :
+
+```sh
+deno run -A index.ts
+```
+
+Lancement des tests :
+
+```sh
+deno test -A
+```
+
+Exécution du lint:
+
+```sh
+deno lint
+```
+
+### variables d’environnement
+
+| nom                  | valeur par défaut | description               |
+| -------------------- | ----------------- | ------------------------- |
+| CITY_API_DB_URL      | localhost         | adresse de la db          |
+| CITY_API_DB_PORT     | 5432              | port de la db             |
+| CITY_API_DB_USER     | postgres          | utilisateur de la db      |
+| CITY_API_DB_PWD      | postgres          | mot de passe de la db     |
+| CITY_API_DB_DATABASE | postgres          | database à utiliser       |
+| CITY_API_ADDR        | 0.0.0.0           | adresse d’écoute de l’api |
+| CITY_API_PORT        | 2022              | port d’écout de l’api     |
 
 ## Intégration continue
 
